@@ -1,4 +1,4 @@
-# Project Title
+# umpint.com - Bash Example API
 
 Bash API example to umpint.com document signing service.
 This could be used in production as is reasonable fast.
