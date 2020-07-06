@@ -19,9 +19,7 @@ As long as these are installed on your host and in the path these scripts should
 
 Only other requirements are that you need access to umpint.com over the internet to send the data. And you need access to the private key of the certificate of the domain you want to sign for.
 
-
 ### Installing
-
 
 ```
 git clone https://github.com/umpint/bash-api.git
@@ -55,16 +53,15 @@ The "signed OK" signifies that the signature was correct and it was a new file.
 
 If instead you see "duplicate already in db" this just means that you probably did not change the "testfile.sh" or have upload the file twice and so we already had a signature in the database. To fix this issue just change the file in some way.
 
+The batch_sign.sh is used in exactly the same way. Only difference is that the last perameter is the path to a directory. And all the files will be signed in one call to the umpint.com API.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+TODO
 
 ## Authors
 
 * **Robin Owens** - *Initial work* - [Umpint](https://github.com/Umpint)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
