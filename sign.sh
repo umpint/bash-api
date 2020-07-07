@@ -55,18 +55,21 @@ if [ ! -r $file ]; then
   exit 5
 fi
 
-
-
-
+# Compute has of file and store as Hex String (will no \n at the end in a file).
 sha256sum $file | awk '{print $1}' | tr -d '\n' > /tmp/hash.$$.txt
+# Sign the digest of the file containing the hash.
 openssl dgst -sha256 -sign $privateKey -out /tmp/sign.$$.bin /tmp/hash.$$.txt
+# Convert the binary signature into a base64 encoded string
 openssl base64 -in /tmp/sign.$$.bin -out /tmp/sign.$$.txt
+# read hash into variable
 hash=`cat /tmp/hash.$$.txt`
+# url encode the base64 string
 sig=`cat /tmp/sign.$$.txt | tr -d '\n' | tr -- '+=/' '-_~'| sed -e 's/ //g'`
 
 echo "sending - hash [$hash] sig [$sig]"
 echo ""
 echo "Result:"
+# Send the hash and signature to the umping.com servers.
 curl "https://umpint.com/api/v1/sign/${url}?hash=${hash}&sig=${sig}"
 echo ""
 rm /tmp/hash.$$.txt /tmp/sign.$$.txt /tmp/sign.$$.bin
