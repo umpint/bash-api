@@ -17,8 +17,11 @@
 # 2. The path to the private key that coresponds to the URL in (1).
 # 3. A path to a single file to be signed.
 # 
-# It will print out a JSON result detailing status of the file it tried
-# to sign.
+# Once the file is signed it will upload the hash and signature to the
+# umpint.com servers to allow users to authenticate at a later date.
+#
+# It will finally print out the result detailing status of the file it 
+# signed.
 
 
 if [ "$#" -ne 3 ]; then
