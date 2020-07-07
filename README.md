@@ -41,7 +41,7 @@ Place this file in the bash-api directory.
 To sign an individual file run:
 ```
 # 1st edit the file testfile.sh and make random change to it so it is unique
-./single.sh dummybank.rowit.co.uk ./key.pem testfile.sh
+./sign.sh dummybank.rowit.co.uk ./key.pem testfile.sh
 ```
 
 you should then see output like this:
@@ -56,6 +56,10 @@ The "signed OK" signifies that the signature was correct and it was a new file.
 If instead you see "duplicate already in db" this just means that you probably did not change the "testfile.sh" or have upload the file twice and so we already had a signature in the database. To fix this issue just change the file in some way.
 
 The batch_sign.sh is used in exactly the same way. Only difference is that the last perameter is the path to a directory. And all the files will be signed in one call to the umpint.com API.
+
+## Addition information
+
+For full specification of the API see: https://github.com/umpint/rest-api
 
 ## Contributing
 
