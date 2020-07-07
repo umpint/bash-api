@@ -14,6 +14,8 @@ These scripts should work on any standard UNIX/Linux host. Only relies on:
 1) sha256sum
 2) openssl
 3) curl
+4) awk
+5) tr
 
 As long as these are installed on your host and in the path these scripts should work.
 
