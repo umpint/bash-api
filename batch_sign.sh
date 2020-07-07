@@ -11,14 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+##########################################################################
+#
 # This is an example bash script that takes 3 parameters:
 # 1. The URL of the domain that is signing the files.
 # 2. The path to the private key that coresponds to the URL in (1)
 # 3. A path to a directory that contains a list of files to be signed
 # 
-# It will print out a JSON result detailing status of each file it tried
-# to sign.
+# It will then upload all the hashes and signature to the umpint.com 
+# servers.
+#
+# It will finally print out a JSON result detailing status of each file 
+# it tried to sign and upload.
 
 if [ "$#" -ne 3 ]; then
   echo "Please pass 3 arguments:"
@@ -53,6 +57,7 @@ fi
 
 
 first="yes"
+# This loop manually generates an JSON array of [hash, signatures].
 echo "[" > /tmp/post.$$.txt
 for file in `ls $directory`
 do
@@ -60,10 +65,14 @@ do
     echo "," >> /tmp/post.$$.txt
   fi
   first="no"
+  # compute hash of file as hex string and store in temp file (with no \n line erminator)
   sha256sum $directory/$file | awk '{print $1}' | tr -d '\n' > /tmp/hash.$$.txt
+  # compute signature
   openssl dgst -sha256 -sign $privateKey -out /tmp/sign.$$.bin /tmp/hash.$$.txt
+  # convert signature to base64
   openssl base64 -in /tmp/sign.$$.bin -out /tmp/sign.$$.txt
   hash=`cat /tmp/hash.$$.txt`
+  # convert base64 signature to url encoded base64 encoded signature
   sig=`cat /tmp/sign.$$.txt | tr -d '\n' | tr -- '+=/' '-_~'| sed -e 's/ //g'`
   echo "hash [$hash] sig [$sig]"
   echo "[ \"$hash\", \"$sig\" ]" >> /tmp/post.$$.txt
@@ -72,7 +81,8 @@ echo "]" >> /tmp/post.$$.txt
 
 echo ""
 echo "Result:"
+# upload json array of arrays to umpint.com servers.
 curl -XPOST "https://umpint.com/api/v1/sign/$url" --data-binary @/tmp/post.$$.txt  --header "Content-type: application/json"
 echo ""
 
-rm /tmp/hash.$$.txt /tmp/sign.$$.txt /tmp/sign.$$.bin
+rm /tmp/hash.$$.txt /tmp/sign.$$.txt /tmp/post.$$.txt
