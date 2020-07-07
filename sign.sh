@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+##########################################################################
 # This is an example bash script that takes 3 parameters:
 # 1. The URL of the domain that is signing the files.
 # 2. The path to the private key that coresponds to the URL in (1).
